@@ -1,8 +1,8 @@
-### Switch Dumb Smart Contract
+# Switch Dumb Smart Contract
 
 We are using a _Dumb Smart Contract_ here. A _Dumb Smart Contract_ is a Smart Contract pattern that takes advantage of Events, and their relative cheapness compared to writing to storage. 
 
-### Smart Contract Structure
+## Smart Contract Structure
 
 The stucture of the `Switch` contract is very simple, it provides two functions:
 
@@ -26,7 +26,7 @@ function turnSwitch(uint8 state) public {
 }
 ```
 
-### Dumb Smart Contract Pattern
+## Dumb Smart Contract Pattern
 
 The idea is to listen to the specified Events (`SwitchTurned` and `UserChanged`) at the address of the deployed contract. 
 
@@ -36,14 +36,14 @@ Using this pattern, no storage is used and usage is much cheaper.
 
 Read more about the Dumb Smart Contracts pattern here: https://anallergytoanalogy.medium.com/adventures-with-dumb-contracts-18f8ce8414c9
 
-### Build & Test
+## Build & Test
 
 * `forge -vvvv test`
 
-### Start local Anvil
+## Start local Anvil
 
 * `anvil` (uses default mnemonic **test test test ... junk**)
 
-### Deploy to local Anvil
+## Deploy to local Anvil
 
 * `forge script script/Switch.s.sol -vvvv --broadcast --fork-url=http://localhost:8545`

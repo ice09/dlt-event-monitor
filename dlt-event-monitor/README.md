@@ -1,7 +1,5 @@
 # Decoupled Message-Based Smart Contract Event Monitor
 
-**The RPC-URL in the property file `application.properties` must point to the chain the contracts are deployed.**
-
 ## Message-based Event Handling
 
 ```solidity
@@ -23,11 +21,11 @@ function turnSwitch(uint8 state) public {
 
 ![](https://i.imgur.com/4oOx2Ly.png)
 
-### DLT Event Listener Configuration
+## DLT Event Listener Configuration
 
 ![](https://i.imgur.com/pAk2lHrh.png)
 
-### Howto Use Message-based Event Handling
+## Howto Use Message-based Event Handling
 
 1. Start RabbitMQ Docker image with   
 `docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management`
@@ -36,37 +34,48 @@ function turnSwitch(uint8 state) public {
 
 _Note: This is a PoC, all configuration parameters are hard-coded and there is no Listener._
 
-## Prerequisites
+## Run Docker Version
+
+* Create a file `config.yaml` with the correct contract address
+
+```yaml
+contracts:
+   - address: <CONTRACT_ADDRESS>
+     name: Switch
+     events:
+        - name: SwitchTurned(address,uint8)
+          start: 0
+        - name: UserChanged(address,address)
+          start: 0
+```
+* Start Docker with local RabbitMQ and local Ethereum chain
+
+```bash
+docker run -p 8080:8080 \
+-e CONFIG_FILE_PATH=/var/dlt-mon/config.yaml \
+-e WEB3_ETHEREUM_RPC_URL=http://host.docker.internal:8545 \
+-e SPRING_RABBITMQ_HOST=host.docker.internal \
+-v $(pwd):/var/dlt-mon \
+ice0nine/dlt-event-monitor:main
+```
+## Build Locally
+
+### Prerequisites
 
 * Foundry
 * Java 17
 
-## Setup
+### Setup
 
 * Start `anvil` (Start local development chain)
-
-### In Bex Smart Contract Folder
-
-1. Run `forge script script/CreateInitScenario.s.sol -vvvv --broadcast --rpc-url=http://localhost:8545` (Deploy Contract and Create financings)
-1. Find `MockCBDCToken` and `FinancingNFT` contract addresses in `broadcast/CreateInitScenario.s.sol/31337/run-latest.json`
-    1. Try: `cat broadcast/CreateInitScenario.s.sol/31337/run-latest.json | jq '.transactions[] | select(.contractName=="MockCBDCToken").contractAddress'`
-    1. Try: `cat broadcast/CreateInitScenario.s.sol/31337/run-latest.json | jq '.transactions[] | select(.contractName=="FinancingNFT").contractAddress'`
 
 ### In Bex REST Services Folder
 
 * Run `./run-local.sh`
 
-## Use
+### Query Active Config
 
-### Locally
-
-* Open http://localhost:8080/swagger-ui.html
-
-### Public
-
-* Start `ngrok http 8080`
-* Note down ngrok-URL
-* Open `Bex-app` in Retool, use noted URL as REST Endpoint URL
+* Open http://localhost:8080/api/config
 
 ### Used Accounts
 
