@@ -1,38 +1,11 @@
 # Decoupled Message-Based Smart Contract Event Monitor
 
-## Message-based Event Handling
-
-```solidity
-event SwitchTurned(address indexed sender, uint8 indexed state);
-event UserChanged(address indexed oldUser, address indexed newUser);
-
-function changeUser(address newUser) public {
-    //...
-    emit UserChanged(user, newUser);
-}
-
-function turnSwitch(uint8 state) public {
-    //...
-    emit SwitchTurned(msg.sender, state);
-}
-```
-
-![](https://i.imgur.com/rLOTfEj.png)
-
-![](https://i.imgur.com/4oOx2Ly.png)
-
-## DLT Event Listener Configuration
-
-![](https://i.imgur.com/pAk2lHrh.png)
-
 ## Howto Use Message-based Event Handling
 
 1. Start RabbitMQ Docker image with   
 `docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management`
 
 2. You can run this application and it publishes Ethereum Blockchain events to a RabbitMQ Queue.
-
-_Note: This is a PoC, all configuration parameters are hard-coded and there is no Listener._
 
 ## Run Docker Version
 
@@ -48,7 +21,7 @@ contracts:
         - name: UserChanged(address,address)
           start: 0
 ```
-* Start Docker with local RabbitMQ and local Ethereum chain
+* Start Docker with local RabbitMQ and local Ethereum chain (eg. `anvil`)
 
 ```bash
 docker run -p 8080:8080 \
@@ -67,7 +40,8 @@ ice0nine/dlt-event-monitor:main
 
 ### Setup
 
-* Start `anvil` (Start local development chain)
+* Start RabbitMQ
+* Start `anvil` (local development chain)
 
 ### In Bex REST Services Folder
 
