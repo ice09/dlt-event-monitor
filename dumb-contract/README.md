@@ -47,3 +47,20 @@ Read more about the Dumb Smart Contracts pattern here: https://anallergytoanalog
 ## Deploy to local Anvil
 
 * `forge script script/Switch.s.sol -vvvv --broadcast --fork-url=http://localhost:8545`
+
+## Get deployed Contract Address
+
+* Install [jq](https://stedolan.github.io/jq/)
+* In directory `dumb-contracts` execute 
+
+```bash
+jq '.transactions[0] | {contractAddress}' broadcast/Switch.s.sol/31337/run-latest.json 
+```
+
+## Turn the Switch
+
+```bash
+cast send <CONTRACT_ADDRESS> \
+"turnSwitch(uint8)" 1 --rpc-url http://127.0.0.1:8545 \
+--private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+```
