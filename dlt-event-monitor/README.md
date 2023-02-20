@@ -5,7 +5,7 @@
 1. Start RabbitMQ Docker image with   
 `docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management`
 
-2. You can run this application and it publishes Ethereum Blockchain events to a RabbitMQ Queue.
+2. You can run this application and it publishes Ethereum Blockchain Events to a RabbitMQ Queue.
 
 ## Run Docker Version
 
@@ -21,6 +21,13 @@ contracts:
         - name: UserChanged(address,address)
           start: 0
 ```
+
+### 📖 Contract Signatures
+
+_Note: The Event name and signature must be correct, otherwise the hashing will not create the correct signature to match the Events. Read more about the topic hashing here: https://besu.hyperledger.org/en/stable/public-networks/concepts/events-and-logs/#event-signature-hash_
+
+For our Events, the signatures are `SwitchTurned(address,uint8)` and `UserChanged(address,address)`, note the missing spaces between the parameter types and no parameter names (for `uint256` the type is just `uint`).
+
 * Start Docker with local RabbitMQ and local Ethereum chain (eg. `anvil`)
 
 ```bash
