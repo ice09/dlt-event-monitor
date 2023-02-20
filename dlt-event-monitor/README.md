@@ -22,7 +22,7 @@ contracts:
           start: 0
 ```
 
-### 📖 Contract Signatures
+### 📖 Event Signatures
 
 _Note: The Event name and signature must be correct, otherwise the hashing will not create the correct signature to match the Events. Read more about the topic hashing here: https://besu.hyperledger.org/en/stable/public-networks/concepts/events-and-logs/#event-signature-hash_
 
